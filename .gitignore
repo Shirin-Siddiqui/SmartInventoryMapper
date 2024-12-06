@@ -1,0 +1,11 @@
+# Ignore node_modules and other generated files
+node_modules/
+build/
+*.env
+
+# Python-related
+*.pyc
+__pycache__/
+
+# Flask uploads
+backend/uploads/

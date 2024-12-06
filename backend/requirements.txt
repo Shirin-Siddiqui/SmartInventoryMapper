@@ -1,0 +1,6 @@
+flask
+flask-cors
+pandas
+openai==0.28
+scikit-learn
+python-dotenv
