@@ -3,6 +3,8 @@ node_modules/
 build/
 *.env
 
+.venv/
+
 # Python-related
 *.pyc
 __pycache__/
