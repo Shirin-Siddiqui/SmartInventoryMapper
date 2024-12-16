@@ -6,7 +6,6 @@ function FileUpload() {
   const [file2, setFile2] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState(""); // Store the download URL for the final file
 
   // Handle file input changes
   const handleFileChange1 = (e) => {
@@ -35,25 +34,15 @@ function FileUpload() {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Ensure this is set
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       setMessage(response.data.message);
-
-      const filePath = response.data.results_file; // Get the correct file path
-      const fileName = filePath.split("/").pop(); // Extract file name
-      setDownloadUrl(`http://127.0.0.1:5000/download/${fileName}`); // Construct download URL
-
-      // Trigger automatic download
-      const link = document.createElement("a");
-      link.href = `http://127.0.0.1:5000/download/${fileName}`;
-      link.download = fileName;
-      link.click(); // Simulate click to trigger download
     } catch (error) {
       setMessage("Error uploading files.");
-      console.error(error); // Check for specific errors
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -65,7 +54,6 @@ function FileUpload() {
         Upload the External and Internal Product List
       </h2>
 
-      {/* File input section displayed side by side */}
       <div style={styles.fileInputContainer}>
         <div style={styles.inputWrapper}>
           <label htmlFor="internalFile" style={styles.label}>
@@ -99,21 +87,10 @@ function FileUpload() {
         style={styles.uploadButton}
         disabled={loading}
       >
-        {loading ? "Processing ..." : "Start Mapping"}
+        {loading ? "Processing ..." : "Upload Files"}
       </button>
 
       {message && <p style={styles.message}>{message}</p>}
-
-      {/* Download Button */}
-      {downloadUrl && (
-        <div>
-          <a href={downloadUrl} download>
-            <button style={styles.downloadButton}>
-              Download Final Product List
-            </button>
-          </a>
-        </div>
-      )}
     </div>
   );
 }
@@ -124,35 +101,45 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#f0f0f0",
     padding: "20px",
   },
   header: {
     fontSize: "24px",
     marginBottom: "20px",
+    fontWeight: "bold",
+    color: "#333",
   },
   fileInputContainer: {
-    display: "flex", // Flexbox to align items side by side
-    justifyContent: "center", // Center items horizontally
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "40px",
     marginBottom: "20px",
   },
   inputWrapper: {
-    margin: "0 20px", // Space between the two file input blocks
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#fff",
+    textAlign: "center",
+    flex: "1",
+    maxWidth: "250px",
   },
   label: {
     fontSize: "18px",
     marginBottom: "10px",
-    color: "#333",
+    fontWeight: "bold",
+    color: "#555",
+    display: "block",
   },
   fileInput: {
     padding: "10px",
-    margin: "10px",
     borderRadius: "5px",
     border: "1px solid #ccc",
+    width: "100%",
+    boxSizing: "border-box",
+    outline: "none",
+    transition: "border-color 0.3s ease",
   },
   uploadButton: {
     padding: "10px 20px",
@@ -162,22 +149,12 @@ const styles = {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-    marginBottom: "20px",
+    transition: "background-color 0.3s ease",
   },
   message: {
     marginTop: "20px",
     fontSize: "16px",
     color: "green",
-  },
-  downloadButton: {
-    padding: "10px 20px",
-    fontSize: "16px",
-    backgroundColor: "#2196F3", // Blue color for the download button
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginTop: "20px",
   },
 };
 
